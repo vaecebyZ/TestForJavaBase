@@ -57,7 +57,7 @@ public class RectangleTest {
 		if (!userPrintString.isEmpty()) {
 			
 			//ÍË³ö
-			if(userPrintString.equals("q") || userPrintString.equals("Q")) {
+			if(userPrintString.equals("q") || userPrintStringA.equals("Q")) {
 				System.out.println("ÒÑÍË³ö");
 				System.exit(0);
 			}
