@@ -95,32 +95,60 @@
           name: "",
           addTime: ""
         },
-        editSourceId:""
+        editId:""//真正的数据下标
       }
     },
     methods: {
-      editCommit() {
-          this.datas.forEach((i,index)=>{
+      editCommit() { 
+          if(this.editItem.id !=""&&!isNaN(this.editItem.id) && this.editItem.name!="" && this.editItem.addTime!=""){//非空
+            console.log(this.searchDates);
 
-            if(index==this.editSourceId){
-              this.datas[index] = this.editItem 
-              alert("修改成功")
-              this.editSourceId=""
-              localStorage.setItem("data", JSON.stringify(this.datas))
-              location.reload();
+          this.searchDates.forEach((item,index)=>{
+            if(this.editId == index){
+                item.name= this.editItem.name
+                item.id= this.editItem.id
+                item.addTime= this.editItem.addTime
             }
           })
+
+          this.datas = this.searchDates
+
+           localStorage.setItem("data", JSON.stringify(this.datas))
+
+            alert("修改成功")
           
+          
+          
+          }else{
+              alert("请填写必要的信息,或者输入有误")
+          }
+  
       },
       toEdit(item) {
+
+       // this.searchDates = this.datas //数据备份
+       if(this.searchDates == ""){
+       this.searchDates =   this.datas
+       }
+
+        
+
+       this.searchDates.forEach((i,index)=>{ //通过备份数组查到真正在搜索前的数组下标
+
+          if(i==item){
+
+            this.editId = index
+         
+          }
+
+       })
+
+
         this.editItem.name = item.name
         this.editItem.id = item.id
         this.editItem.addTime = item.addTime
-        this.datas.forEach((i,index)=>{
-          if(i==item){
-            this.editSourceId = index
-          }
-        })
+
+     
        
       },
       search() {
@@ -132,6 +160,7 @@
           this.searchDates = this.datas; //备份
 
           this.datas.forEach(item => {
+
             if (item.name.search(this.keywords) != -1) {
 
               tempArr.push(item)
