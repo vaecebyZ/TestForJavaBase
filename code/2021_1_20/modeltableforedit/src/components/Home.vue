@@ -100,10 +100,10 @@
     },
     methods: {
       editCommit() { 
-          if(this.editItem.id !=""&&!isNaN(this.editItem.id) && this.editItem.name!="" && this.editItem.addTime!=""){//非空
-            console.log(this.searchDates);
 
-          this.searchDates.forEach((item,index)=>{
+          if(this.editItem.id !=""&&!isNaN(this.editItem.id) && this.editItem.name!="" && this.editItem.addTime!=""){//非空
+
+          this.searchDates.forEach((item,index)=>{//修改数据
             if(this.editId == index){
                 item.name= this.editItem.name
                 item.id= this.editItem.id
@@ -111,9 +111,9 @@
             }
           })
 
-          this.datas = this.searchDates
+          this.datas = this.searchDates //更新表格
 
-           localStorage.setItem("data", JSON.stringify(this.datas))
+          localStorage.setItem("data", JSON.stringify(this.datas))
 
             alert("修改成功")
           
@@ -126,12 +126,9 @@
       },
       toEdit(item) {
 
-       // this.searchDates = this.datas //数据备份
        if(this.searchDates == ""){
-       this.searchDates =   this.datas
+       this.searchDates =  this.datas
        }
-
-        
 
        this.searchDates.forEach((i,index)=>{ //通过备份数组查到真正在搜索前的数组下标
 
@@ -144,6 +141,7 @@
        })
 
 
+        //数据绑定
         this.editItem.name = item.name
         this.editItem.id = item.id
         this.editItem.addTime = item.addTime
