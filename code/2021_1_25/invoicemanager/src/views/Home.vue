@@ -90,7 +90,7 @@
         isEdit: false,
         tableDatas: [],
         form: {
-          id:'',
+          id: '',
           type: '',
           cpName: '',
           cpNum: '',
@@ -104,7 +104,7 @@
     methods: {
       init() {
         this.form = {
-          id:'',
+          id: '',
           type: '',
           cpName: '',
           cpNum: '',
@@ -113,7 +113,7 @@
           bankName: '',
           bankId: ''
         }
-        
+
         this.$http.post("http://localhost:8088/Shopping/api/v1/invoice/getinvoice").then((res) => {
           // console.log(res.data);
           if (res.data != null) {
@@ -133,32 +133,48 @@
         this.form = r;
       },
       Delete(i, r) {
-          this.tableDatas.forEach(element => {
-              if(element == r){
-                
-                console.log(r.id);
 
-                this.$http.post("http://localhost:8088/Shopping/api/v1/invoice/delinvoice",{
-                  "id":r.id
-                }).then(res => {
-                if(res.data.data){
+        this.$confirm('此操作将永久删除该文件, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+
+          this.tableDatas.forEach(element => {
+            if (element == r) {
+
+              console.log(r.id);
+
+              this.$http.post("http://localhost:8088/Shopping/api/v1/invoice/delinvoice", {
+                "id": r.id
+              }).then(res => {
+                if (res.data.data) {
                   this.$message.success("删除成功！")
                 }
                 this.init()
               })
-              
-              }
+
+            }
           });
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });
+        });
+
+
       },
       commit() {
-        
-        if(this.form.type==""){
-           this.$message.error('请至少选择一种选择发票类型！')
-           return;
+
+        if (this.form.type == "") {
+          this.$message.error('请至少选择一种选择发票类型！')
+          return;
         }
 
         if (this.form.cpName != "" && this.form.cpNum != "") {
-          
+
           if (this.form.type == "增值税专用发票") {
             if (this.form.address == "" || this.form.phone == "" || this.form.bankName == "" || this.form.bankId ==
               "") {
@@ -166,26 +182,26 @@
             } else {
               this.form.type = 1
             }
-          }else{
+          } else {
             this.form.type = 0
           }
 
-          if(this.form.id != ""){
-              this.$http.post("http://localhost:8088/Shopping/api/v1/invoice/editinvoice", this.form).then(res => {
-                if(res.data.data){
-                  this.$message.success("编辑成功！")
-                }
-                this.init()
-              })
+          if (this.form.id != "") {
+            this.$http.post("http://localhost:8088/Shopping/api/v1/invoice/editinvoice", this.form).then(res => {
+              if (res.data.data) {
+                this.$message.success("编辑成功！")
+              }
+              this.init()
+            })
 
 
-          }else{
+          } else {
             this.$http.post("http://localhost:8088/Shopping/api/v1/invoice/addinvoice", this.form).then(res => {
-                if(res.data.data){
-                  this.$message.success("添加成功！")
-                }
-                this.init()
-              })
+              if (res.data.data) {
+                this.$message.success("添加成功！")
+              }
+              this.init()
+            })
           }
 
         } else {
@@ -195,7 +211,7 @@
       }
     },
     mounted() {
-        this.init()
+      this.init()
     }
   }
 </script>
