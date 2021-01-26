@@ -35,3 +35,26 @@ import 'element-ui/lib/theme-chalk/index.css';
 Vue.use(ElementUI);
 ```
 
+
+
+#### Get Axios
+
+```bash
+npm install axios
+```
+
+#### Then
+
+```bash
+npm install --save axios vue-axios
+```
+
+#### Use Axios
+
+```js
+import axios from 'axios'
+import VueAxios from 'vue-axios'
+ 
+Vue.use(VueAxios, axios)
+```
+
